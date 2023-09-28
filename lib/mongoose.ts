@@ -2,7 +2,7 @@ import mongoose, { mongo } from "mongoose";
 
 let isConnected = false;
 export const connectDb = async () => {
-  mongoose.set("strictQuery", true);
+  
   if (!process.env.MONGODB_URL) {
     console.log("Mongodb database not found");
   }
@@ -17,5 +17,5 @@ export const connectDb = async () => {
     console.log(error);
   }
 };
-const user = mongoose.models.User || mongoose.model("user");
-export default user;
+
+

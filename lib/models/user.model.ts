@@ -4,38 +4,38 @@ const userSChema = new mongoose.Schema({
   username: {
     type: String,
     unique: true,
-    required:true
+    required: true,
   },
   name: {
     type: String,
-    required:true,
+    required: true,
   },
-  id: {
+  userId: {
     type: String,
-    required:true
+    required: true,
   },
   image: {
     type: String,
-    
   },
   bio: {
-    type:String,
+    type: String,
   },
   threads: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref:"thre"
-    }
+      ref: "thre",
+    },
   ],
-  obBoarded: {
+  onBoarded: {
     type: String,
-    default:false
+    default: false,
   },
   communities: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref:"Communities"
-    }
-  ]
-})
-const user=mongoose.models.User||mongoose.model('user',userSChema)
+      ref: "Communities",
+    },
+  ],
+});
+const user = mongoose.models.user || mongoose.model("user", userSChema);
+export default user;
