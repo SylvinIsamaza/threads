@@ -23,7 +23,7 @@ const userSChema = new mongoose.Schema({
   threads: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "thre",
+      ref: "thread",
     },
   ],
   onBoarded: {
@@ -33,7 +33,7 @@ const userSChema = new mongoose.Schema({
   communities: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Communities",
+      ref: "Community",
     },
   ],
 });
