@@ -18,8 +18,8 @@ export default async function Page() {
   const userData = {
     id: user?.id,
     objectId: userInfo?._id,
-    usename: userInfo?.username || user.username,
-    name: userInfo?.name || user.name || "",
+    usename: userInfo?.username || user?.username,
+    name: userInfo?.name || user?.name || "",
     bio: userInfo?.bio || "",
     image:userInfo?.image||user?.image
     
