@@ -1,3 +1,4 @@
+"use server"
 import ThreadCard from "@/components/card/ThreadCard";
 import { fetchPost } from "@/lib/actions/thread.action";
 import user from "@/lib/models/user.model";
@@ -20,7 +21,7 @@ export default async function Home() {
             <>
               {
                 result.posts.map((post) => (
-                  <ThreadCard  key={post._id} id={post._id} currentUser={user?.id} content={post.text} parentId={post.parentId} community={post.community} createdAt={post.createdAt} comments={post.children} />
+                  <ThreadCard  key={post._id} isComment={true} author={post.author} id={post._id} currentUser={user?.id} content={post.text} parentId={post.parentId} community={post.community} createdAt={post.createdAt} comments={post.children} />
                 ))
               }
             
