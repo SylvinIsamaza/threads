@@ -4,7 +4,7 @@ import React from "react";
 
 interface params {
   id: string;
-  currentUser: string;
+  currentUser?: string;
 
   createdAt: string;
   author: {
