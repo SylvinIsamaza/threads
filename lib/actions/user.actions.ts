@@ -43,6 +43,7 @@ export async function updateUser({
 }
 
 export async function fetchUser(userId: string) {
+  console.log('USER ID'+userId)
   try {
     return await User.findOne({ userId: userId })
     //   .populate({

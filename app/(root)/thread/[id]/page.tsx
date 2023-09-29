@@ -7,6 +7,7 @@ import { fetchUser } from '@/lib/actions/user.actions'
 import { currentUser } from '@clerk/nextjs'
 import { redirect } from 'next/navigation'
 import React from 'react'
+import { threadId } from 'worker_threads'
 
 async function Page({ params }: {
   params: {
@@ -21,11 +22,17 @@ async function Page({ params }: {
   return (
     <section className="relative">
       <div>
-  <ThreadCard  key={post?._id} isComment={true} author={post?.author} id={post?._id} currentUser={user?.id} content={post?.text} parentId={post?.parentId} community={post?.community} createdAt={post?.createdAt} comments={post?.children} />
+  <ThreadCard  key={post?._id} isComment={false} author={post?.author} id={post?._id} currentUser={user?.id} content={post?.text} parentId={post?.parentId} community={post?.community} createdAt={post?.createdAt} comments={post?.children} />
 
       </div>
       <div className="mt-7">
-        <Comment threadId={post.id} currentUserId={JSON.stringify(user?.id)} currentUserImg={user?.imageUrl} />
+        <Comment threadId={post.id} currentUserId={JSON.stringify(userInfo?.id)} currentUserImg={userInfo?.image} />
+      </div>
+      <div className="mt-10">
+        {post.children.map((post:any) => (
+  <ThreadCard  key={post?._id} isComment={true} author={post?.author} id={post?._id} currentUser={user?.id} content={post?.text} parentId={post?.parentId} community={post?.community} createdAt={post?.createdAt} comments={post?.children} />
+          
+        ))}
       </div>
 
     </section>

@@ -3,6 +3,7 @@ import { revalidatePath } from "next/cache"
 import Thread from "../models/thread.model"
 import User from "../models/user.model"
 import { connectDb } from "../mongoose"
+import { object } from "zod"
 interface params{
   text: string,
   communityId: any,
@@ -192,15 +193,16 @@ export async function addCommentToThread(
   try {
     // Find the original thread by its ID
     const originalThread = await Thread.findById(threadId);
-
+ 
     if (!originalThread) {
       throw new Error("Thread not found");
     }
-
+    const objectId = await User.findOne({ userId: userId.replaceAll("\"", "") })
+  
     // Create the new comment thread
     const commentThread = new Thread({
       text: commentText,
-      author: userId,
+      author:objectId,
       parentId: threadId, // Set the parentId to the original thread's ID
     });
 

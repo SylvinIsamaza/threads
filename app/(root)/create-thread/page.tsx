@@ -8,9 +8,9 @@ async function Page() {
   
   if (!user) return null;
   console.log('user',user.id)
-  // const userInfo = await fetchUser(user.id)
-  // if (!userInfo.onBoarded)return redirect('/onBoarding')
-  // console.log(userInfo)
+  const userInfo = await fetchUser(user.id)
+  if (!userInfo.onBoarded)return redirect('/onBoarding')
+  console.log(userInfo)
 
   return (<>
     

@@ -16,8 +16,8 @@ import { Button } from '../ui/button';
 import { commentValidation } from '@/lib/validation/thread';
 import Image from 'next/image';
 import { addCommentToThread } from '@/lib/actions/thread.action';
-import { useParams, usePathname } from 'next/navigation';
-import { useRouter } from 'next/router';
+import { useParams, usePathname, useRouter } from 'next/navigation';
+
 
 interface props{
   threadId: string;
@@ -40,7 +40,7 @@ function Comment({ threadId, currentUserImg, currentUserId }: props) {
 
     await addCommentToThread(threadId, values.thread, currentUserId, path)
     router.push("/");
-    console.log('submiting thr form')
+   
   };
   return (
     <Form {...form}>
@@ -59,8 +59,8 @@ function Comment({ threadId, currentUserImg, currentUserId }: props) {
         name="thread"
         render={({ field }) => (
           <FormItem className="flex w-full f gap-3">
-            <FormLabel>
-             <Image src={currentUserImg}  alt="profile photo"  width={48} height={48} className='rounded-full object-cover'/>
+            <FormLabel className='account-form_image-label'>
+             <Image src={currentUserImg}  alt="profile photo" width={48} height={48}  className='rounded-full object-contain'/>
             </FormLabel>
             <FormControl className=" bg-transparent border-none ">
               <Input
