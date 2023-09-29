@@ -3,6 +3,7 @@ import { revalidatePath } from "next/cache";
 import User from "../models/user.model";
 
 import { connectDb } from "../mongoose";
+import thread from "../models/thread.model";
 interface Params {
   userId: string;
   username: string;
@@ -54,3 +55,36 @@ export async function fetchUser(userId: string) {
     throw new Error(`Failed to fetch User due to ${error.message}`)
   }
 }
+export async function fetchUserPosts(userId: string) {
+  try {
+    connectDb();
+
+    // Find all threads authored by the user with the given userId
+    const threads = await User.findOne({ userId: userId }).populate({
+      path: "threads",
+      model: thread,
+      populate: [
+        // {
+        //   path: "community",
+        //   model: Community,
+        //   select: "name id image _id", // Select the "name" and "_id" fields from the "Community" model
+        // },
+        {
+          path: "children",
+          model: thread,
+          populate: {
+            path: "author",
+            model: User,
+            select: "name image id", // Select the "name" and "_id" fields from the "User" model
+          },
+        },
+      ],
+    });
+    return threads;
+  } catch (error) {
+    console.error("Error fetching user threads:", error);
+    throw error;
+  }
+}
+
+// Almost similar to Thead (search + pagination) and Community (search + pagination)
