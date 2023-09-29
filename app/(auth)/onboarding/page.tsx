@@ -1,6 +1,7 @@
 
 import "../../globals.css"
 import AccountProfile from "@/components/forms/AccountProfile";
+import { fetchUser } from "@/lib/actions/user.actions";
 // import { fetchUser } from "@/lib/user.actions";
 import { UserButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs";
@@ -11,7 +12,7 @@ export default async function Page() {
   const user = await currentUser()
   if (!user) return null; 
 
-  const userInfo = {};
+  const userInfo = fetchUser(user.id);
   // if (userInfo?.onboarded) redirect("/");
 
   const userData = {

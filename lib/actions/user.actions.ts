@@ -4,6 +4,8 @@ import User from "../models/user.model";
 
 import { connectDb } from "../mongoose";
 import thread from "../models/thread.model";
+import { FilterQuery, SortOrder } from "mongoose";
+import user from "../models/user.model";
 interface Params {
   userId: string;
   username: string;
@@ -87,4 +89,44 @@ export async function fetchUserPosts(userId: string) {
   }
 }
 
+
+
 // Almost similar to Thead (search + pagination) and Community (search + pagination)
+
+export async function fetchUsers({ userId, searchString, pageNumber=1, pageSize=20, sortBy = "desc" }: {
+  userId: string,
+  searchString: string,
+  pageNumber?: number,
+  pageSize?: number,
+  sortBy?:SortOrder
+}) {
+  connectDb()
+  const skipAmount = (pageNumber - 1) * pageSize;
+  const regex = new RegExp(searchString, "i")
+  const query:FilterQuery<typeof User> = {
+    id:{$ne:userId}
+  }
+  if (searchString?.trim() != "") {
+    query.$or = [
+      {
+        username:{$regex:regex}
+      },
+      {
+        name:{$regex:regex}
+      }
+
+    ]
+  }
+  const sortOption = { createdAt: sortBy }
+  const usersQuery = User.find(query).sort(sortOption).skip(skipAmount).limit(pageSize)
+  const totalUserCount = await User.countDocuments(query)
+  const users = await usersQuery.exec()
+  const isNext = totalUserCount > skipAmount + users.length
+  
+  return {isNext,users}
+  try {
+    
+  } catch (error:any) {
+    throw new Error(`failed to search due to ${error.message}`)
+  }
+}
