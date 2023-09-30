@@ -198,7 +198,7 @@ export async function addCommentToThread(
       throw new Error("Thread not found");
     }
     const objectId = await User.findOne({ userId: userId.replaceAll("\"", "") })
-  
+    console.log(objectId)
     // Create the new comment thread
     const commentThread = new Thread({
       text: commentText,

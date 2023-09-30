@@ -37,7 +37,7 @@ function Comment({ threadId, currentUserImg, currentUserId }: props) {
     },
   });
   const onSubmit = async (values: z.infer<typeof commentValidation>) => {
-
+console.log('submitting the form')
     await addCommentToThread(threadId, values.thread, currentUserId, path)
     router.push("/");
    
@@ -59,8 +59,8 @@ function Comment({ threadId, currentUserImg, currentUserId }: props) {
         name="thread"
         render={({ field }) => (
           <FormItem className="flex w-full f gap-3">
-            <FormLabel className='account-form_image-label'>
-             <Image src={currentUserImg}  alt="profile photo" width={48} height={48}  className='rounded-full object-contain'/>
+            <FormLabel className='account-form_image-label !relative'>
+             <Image src={currentUserImg}  alt="profile photo" fill  className='rounded-full object-cover '/>
             </FormLabel>
             <FormControl className=" bg-transparent border-none ">
               <Input

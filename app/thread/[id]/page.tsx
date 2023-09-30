@@ -26,7 +26,7 @@ async function Page({ params }: {
 
       </div>
       <div className="mt-7">
-        <Comment threadId={post.id} currentUserId={JSON.stringify(userInfo?.id)} currentUserImg={userInfo?.image} />
+        <Comment threadId={post.id} currentUserId={JSON.stringify(userInfo?.userId)} currentUserImg={userInfo?.image} />
       </div>
       <div className="mt-10">
         {post.children.map((post:any) => (
