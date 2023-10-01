@@ -4,35 +4,47 @@ import Thread from "../models/thread.model"
 import User from "../models/user.model"
 import { connectDb } from "../mongoose"
 import { object } from "zod"
+import Community from "../models/community.model"
 interface params{
   text: string,
   communityId: any,
   path: string,
   author:string
 }
-export async function createThread({ text, author, communityId, path }: params) {
-  connectDb()
-  const user=await User.findOne({userId:author})
-try {
-  const createdThread=await Thread.create({
-    text,
-    author:user,
-    communities:null
- })
-  await User.findOneAndUpdate({
-    userId:author
-  },
-    {
-      $push: {
-        threads: createdThread._id
-      }
+
+export async function createThread({ text, author, communityId, path }: params
+  ) {
+    try {
+      connectDb();
+  
+      // const communityIdObject = await Community.findOne(
+      //   { id: communityId },
+      //   { _id: 1 }
+      // );
+  
+      const createdThread = await Thread.create({
+        text,
+        author,
+        community: communityId, // Assign communityId if provided, or leave it null for personal account
+      });
+  
+      // Update User model
+      await User.findByIdAndUpdate(author, {
+        $push: { threads: createdThread._id },
+      });
+  
+      // if (communityIdObject) {
+      //   // Update Community model
+      //   await Community.findByIdAndUpdate(communityIdObject, {
+      //     $push: { threads: createdThread._id },
+      //   });
+      // }
+  
+      revalidatePath(path);
+    } catch (error: any) {
+      throw new Error(`Failed to create thread: ${error.message}`);
     }
-  )
-revalidatePath(path)
-} catch (error:any) {
-  throw new Error(`Error creating thread ${error.message }`)
-}
-}
+  }
 
 export async function fetchPost(pageNumber = 1, pageSize = 20) {
   connectDb()

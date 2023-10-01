@@ -16,7 +16,7 @@ async function Page() {
     
     
     <h1 className="head-text text-center py-1">Create thread</h1>
-    <PostThread userId={user.id} />
+    <PostThread userId={userInfo.id} />
   </>)
 }
 export default Page
